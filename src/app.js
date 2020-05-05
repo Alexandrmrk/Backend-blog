@@ -18,7 +18,6 @@ const users = [
   { name: 'Alex', login: 'alex', password: '123' },
   { name: 'Vera', login: 'vera', password: '222' },
 ];
-
 const posts = [
   {
     id: 1,
@@ -72,6 +71,27 @@ app.post('/auth', (request, response) => {
   }
 
   response.json({ status: true, user });
+});
+
+app.get('/posts', (request, response) => {
+  response.json(posts);
+});
+
+app.post('/posts', (request, response) => {
+  posts.push(request.body);
+  response.json({ status: true, post: request.body });
+});
+
+app.put('/posts', (request, response) => {
+  const index = posts.findIndex((p) => +p.id === +request.query.id);
+  if (index === -1) {
+    response.status(404).send('Post not found');
+  }
+
+  posts[index].header = request.body.header;
+  posts[index].content = request.body.content;
+
+  response.json({ status: true, post: posts[index] });
 });
 
 app.use('*', (request, response) => {
