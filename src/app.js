@@ -13,6 +13,10 @@ app.get('/', (request, response) => {
   response.send('Hello Alexandr!');
 });
 
+app.get('*', (request, response) => {
+  response.status(404).send('Endpoint not found on server!');
+});
+
 app.listen(process.env.PORT, () => {
   console.log(`Express server run http://${process.env.HOST}:${process.env.PORT}`);
 });
