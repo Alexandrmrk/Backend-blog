@@ -1,11 +1,13 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import path from 'path';
+import cors from 'cors';
 
 const root = path.join.bind(this, __dirname, '../');
 dotenv.config({ path: root('.env') });
 
 const app = express();
+app.use(cors());
 
 app.get('/', (request, response) => {
   response.send('Hello Alexandr!');
