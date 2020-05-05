@@ -3,5 +3,5 @@
 ## Description project
 
 ### Stack
--Node.js
--Express
+- Node.js
+- Express
