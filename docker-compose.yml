@@ -1,0 +1,24 @@
+version: '2.1'
+
+services:
+  backend:
+    build: .
+    ports:
+      - 7777:7777
+    volumes:
+      - ./:/usr/src/app
+    command: npm run dev
+    links:
+      - mongo
+  mongo:
+    image: mongo
+    ports: 
+      - 27018:27017
+  express:
+    image: mongo-express
+    environment:
+        - ME_CONFIG_MONGODB_SERVER=mongo
+    ports:
+        - 8081:8081
+    links:
+        - mongo 
