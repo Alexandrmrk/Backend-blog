@@ -3,11 +3,16 @@ import dotenv from 'dotenv';
 import path from 'path';
 import cors from 'cors';
 import bodyParser from 'body-parser';
+import mongoose from 'mongoose';
 import routes from './routes';
 import ErrorHandler from './middleware/ErrorHandler';
 
 const root = path.join.bind(this, __dirname, '../');
 dotenv.config({ path: root('.env') });
+
+mongoose
+  .connect(process.env.MONGO_URI, { useNewUrlParser: true })
+  .catch((e) => console.log(e));
 
 const app = express();
 app.use(cors());
