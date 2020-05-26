@@ -1,6 +1,30 @@
-const users = [
-  { name: 'Alex', login: 'alex', password: '123' },
-  { name: 'Vera', login: 'vera', password: '222' },
-];
+import mongoose, { Schema } from 'mongoose';
 
-export default users;
+const UserSchema = new Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      minlength: 2,
+      maxlength: 40,
+      trim: true,
+    },
+    password: {
+      type: String,
+      required: true,
+      minlength: 8,
+      maxlength: 60,
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+    },
+  },
+  {
+    timestamps: true,
+  },
+);
+
+export default mongoose.model('User', UserSchema);
