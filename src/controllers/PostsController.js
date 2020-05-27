@@ -17,7 +17,7 @@ class PostsController {
 
   @TryCatch
   static async create(req, res) {
-    const model = new Post(req.body);
+    const model = new Post({ ...req.body, authorId: req.userId });
     const post = await model.save();
 
     res.json({ status: true, post });
@@ -26,6 +26,10 @@ class PostsController {
   @TryCatch
   static async update(req, res) {
     const post = await PostsController.getPostById(req.params.id);
+
+    if (req.userId !== post.authorId) {
+      throw new HttpError('Access in closed', 403);
+    }
 
     post.header = req.body.header;
     post.content = req.body.content;
@@ -37,6 +41,10 @@ class PostsController {
   @TryCatch
   static async delete(req, res) {
     const post = await PostsController.getPostById(req.params.id);
+
+    if (req.userId !== post.authorId) {
+      throw new HttpError('Access in closed', 403);
+    }
 
     await post.delete();
 
