@@ -14,11 +14,18 @@ class AuthController {
       throw new HttpError('Incorrect login or password', 401);
     }
 
-    /* eslint no-underscore-dangle: ["error", {"allow": ["_id"]}] */
-    const authToken = await createAuthToken({ id: user._id.toString() });
-    delete user.password;
+    /* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
+    const authToken = await createAuthToken({ id: String(user._id) });
 
-    res.json({ status: true, user, authToken });
+    res.json({
+      status: true,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+      },
+      authToken,
+    });
   }
 
   @TryCatch
@@ -30,8 +37,15 @@ class AuthController {
     });
 
     const user = await model.save();
-    delete user.password;
-    res.json({ status: true, user });
+
+    res.json({
+      status: true,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+      },
+    });
   }
 }
 
