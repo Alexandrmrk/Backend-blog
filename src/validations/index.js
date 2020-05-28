@@ -1,4 +1,4 @@
-import auth from './auth';
-import posts from './posts';
+import * as auth from './auth';
+import * as posts from './posts';
 
 export default { auth, posts };
